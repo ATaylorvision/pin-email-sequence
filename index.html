@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PIN — Beta Email Sequence</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --linen:#eae6dc;
+  --linen-2:#f5f2eb;
+  --linen-3:#f9f7f3;
+  --surface:#ffffff;
+  --taupe:#8c7d6a;
+  --taupe-dark:#5c4f40;
+  --gold:#9a7530;
+  --gold-light:#c4a05a;
+  --gold-pale:#f5ede0;
+  --gold-pale2:#faf6ef;
+  --text:#2a2118;
+  --text-2:#6b5e4c;
+  --text-3:#a8998a;
+  --border:rgba(90,70,40,.1);
+  --border-2:rgba(90,70,40,.18);
+  --shadow:0 1px 4px rgba(60,40,10,.08),0 6px 20px rgba(60,40,10,.06);
+  --shadow-sm:0 1px 3px rgba(60,40,10,.07);
+  --r:12px;
+  --mono:"JetBrains Mono",monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--linen);color:var(--text);font-family:"Inter",sans-serif;font-size:14px;line-height:1.6;min-height:100vh}
+
+/* ── HEADER ── */
+.hd{padding:18px 40px 0;background:transparent}
+.hd-inner{background:var(--taupe);border-radius:50px;padding:10px 14px 10px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.hd-left{display:flex;align-items:center;gap:10px}
+.hd-flame{width:22px;height:22px;flex-shrink:0}
+.hd-title{font-family:"Cormorant Garamond",serif;font-size:17px;font-weight:600;color:#f5f0e8;letter-spacing:.01em;white-space:nowrap}
+.hd-sep{width:1px;height:14px;background:rgba(255,255,255,.2)}
+.hd-sub{font-size:12px;color:rgba(245,240,232,.55);white-space:nowrap}
+.hd-pills{display:flex;gap:6px;align-items:center}
+.pill{font-size:11px;font-family:var(--mono);padding:4px 10px;border-radius:20px;border:1px solid rgba(255,255,255,.18);color:rgba(245,240,232,.65)}
+.pill.gold{background:linear-gradient(135deg,#c4a05a,#9a7530);border:none;color:#fff;font-weight:500;padding:5px 14px;border-radius:20px}
+
+/* ── STATS ── */
+.stats{display:flex;gap:0;padding:18px 40px 0}
+.st{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 20px;display:flex;flex-direction:column;gap:2px;flex:1;box-shadow:var(--shadow-sm)}
+.st:not(:last-child){margin-right:8px}
+.st-n{font-family:"Cormorant Garamond",serif;font-size:22px;font-weight:600;color:var(--gold);line-height:1.1}
+.st-l{font-size:10px;font-family:var(--mono);color:var(--text-3);text-transform:uppercase;letter-spacing:.06em}
+
+/* ── PERSONALIZE ── */
+.pb-wrap{padding:16px 40px 0}
+.pb{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow-sm);overflow:hidden}
+.pb-toggle{display:flex;align-items:center;gap:10px;padding:14px 20px;cursor:pointer;user-select:none;transition:background .12s}
+.pb-toggle:hover{background:var(--linen-3)}
+.pb-icon{width:16px;height:16px;color:var(--gold-light);flex-shrink:0}
+.pb-label{font-size:13px;font-weight:500;color:var(--text)}
+.pb-hint{font-size:12px;color:var(--text-3)}
+.pb-chev{margin-left:auto;font-size:10px;color:var(--text-3);transition:transform .18s}
+.pb-chev.open{transform:rotate(180deg)}
+.pb-body{display:none;border-top:1px solid var(--border);padding:20px}
+.pb-body.open{display:block}
+.pb-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.f{display:flex;flex-direction:column;gap:5px}
+.f label{font-size:11px;font-family:var(--mono);color:var(--text-3);letter-spacing:.03em}
+.f input{background:var(--linen-2);border:1px solid var(--border-2);border-radius:7px;padding:8px 11px;color:var(--text);font-family:"Inter",sans-serif;font-size:13px;outline:none;width:100%;transition:border-color .15s}
+.f input:focus{border-color:var(--gold-light);box-shadow:0 0 0 3px rgba(154,117,48,.1)}
+.f input:not(:placeholder-shown){border-color:rgba(154,117,48,.3)}
+.pb-foot{display:flex;align-items:center;gap:14px;padding-top:16px;margin-top:16px;border-top:1px solid var(--border)}
+.btn-apply{background:linear-gradient(135deg,#c4a05a,#9a7530);color:#fff;border:none;border-radius:8px;padding:9px 20px;font-family:"Inter",sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:opacity .12s;letter-spacing:.01em}
+.btn-apply:hover{opacity:.88}
+.pb-note{font-size:12px;color:var(--text-3)}
+.adv-row{padding-top:14px;margin-top:14px;border-top:1px solid var(--border)}
+.adv-btn{font-size:11px;font-family:var(--mono);color:var(--text-3);cursor:pointer;user-select:none}
+.adv-btn:hover{color:var(--text-2)}
+.adv-grid{display:none;grid-template-columns:repeat(4,1fr);gap:10px;padding-top:13px}
+.adv-grid.open{display:grid}
+
+/* ── LAYOUT ── */
+.layout{display:grid;grid-template-columns:210px 1fr;padding:16px 40px 40px;gap:16px;align-items:start}
+
+/* ── SIDEBAR ── */
+.sb{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow-sm);overflow:hidden;position:sticky;top:20px}
+.sb-head{padding:14px 16px 10px;border-bottom:1px solid var(--border)}
+.sb-lbl{font-size:10px;font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--text-3)}
+.sb-nav{display:flex;flex-direction:column;gap:2px;padding:8px}
+.phase-btn{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:8px;border:none;background:none;color:var(--text-2);font-family:"Inter",sans-serif;font-size:13px;cursor:pointer;text-align:left;width:100%;transition:background .1s,color .1s}
+.phase-btn:hover{background:var(--linen-2);color:var(--text)}
+.phase-btn.active{background:var(--gold-pale);color:var(--gold)}
+.phase-btn .dot{width:5px;height:5px;border-radius:50%;background:var(--border-2);flex-shrink:0;transition:background .1s}
+.phase-btn.active .dot{background:var(--gold-light)}
+.phase-count{margin-left:auto;font-size:11px;font-family:var(--mono);color:var(--text-3)}
+.phase-btn.active .phase-count{color:var(--gold-light)}
+.sb-footer{padding:10px 14px 14px;border-top:1px solid var(--border);margin-top:4px}
+.sb-tip{font-size:11px;color:var(--text-3);line-height:1.6}
+
+/* ── MAIN CONTENT ── */
+.main{min-width:0}
+.phase-section{display:none}
+.phase-section.active{display:block}
+.phase-header{margin-bottom:20px}
+.phase-number{font-size:11px;font-family:var(--mono);color:var(--text-3);margin-bottom:4px;letter-spacing:.04em}
+.phase-title{font-family:"Cormorant Garamond",serif;font-size:26px;font-weight:600;color:var(--text);margin-bottom:6px;line-height:1.2}
+.phase-desc{font-size:13px;color:var(--text-2);max-width:520px;line-height:1.65}
+
+/* ── EMAIL CARDS ── */
+.email-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);margin-bottom:8px;overflow:hidden;box-shadow:var(--shadow-sm);transition:border-color .15s,box-shadow .15s}
+.email-card:hover{border-color:var(--border-2);box-shadow:var(--shadow)}
+.email-card.open{border-color:rgba(154,117,48,.4);box-shadow:0 0 0 3px rgba(154,117,48,.08),var(--shadow)}
+.email-header{display:flex;align-items:center;gap:11px;padding:13px 16px;cursor:pointer;user-select:none;transition:background .1s}
+.email-header:hover{background:var(--linen-3)}
+
+.badge{font-size:10px;font-family:var(--mono);font-weight:500;padding:2px 8px;border-radius:4px;white-space:nowrap;flex-shrink:0;border:1px solid transparent}
+.b-waitlist{background:#eff6ff;color:#2563eb;border-color:#bfdbfe}
+.b-welcome {background:#f0fdf4;color:#16a34a;border-color:#bbf7d0}
+.b-activate{background:#fffbeb;color:#d97706;border-color:#fde68a}
+.b-trigger {background:#f5f3ff;color:#7c3aed;border-color:#ddd6fe}
+.b-personal{background:#fdf4ff;color:#a21caf;border-color:#f0abfc}
+.b-habit   {background:#f0fdfa;color:#0d9488;border-color:#99f6e4}
+.b-convert {background:#fff1f2;color:#e11d48;border-color:#fecdd3}
+
+.email-meta{flex:1;min-width:0}
+.email-timing{font-size:11px;font-family:var(--mono);color:var(--text-3);margin-bottom:2px}
+.email-subject-preview{font-size:13px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.toggle-icon{font-size:10px;color:var(--text-3);transition:transform .18s;flex-shrink:0}
+.email-card.open .toggle-icon{transform:rotate(90deg);color:var(--gold)}
+
+.email-body{display:none;border-top:1px solid var(--border)}
+.email-body.open{display:block}
+.email-body-inner{padding:18px 20px;background:var(--linen-3)}
+.copy-bar{display:flex;justify-content:flex-end;margin-bottom:14px}
+.btn-copy{display:flex;align-items:center;gap:6px;background:var(--text);color:#fff;border:none;border-radius:7px;padding:6px 14px;font-family:"Inter",sans-serif;font-size:12px;font-weight:500;cursor:pointer;transition:opacity .12s}
+.btn-copy:hover{opacity:.8}
+.btn-copy.copied{background:var(--gold);color:#fff}
+.copy-icon{font-size:12px}
+.email-subjectline{font-size:11px;font-family:var(--mono);color:var(--text-3);margin-bottom:12px}
+.email-subjectline span{color:var(--gold)}
+.email-copy{font-size:13px;line-height:1.9;color:var(--text-2);white-space:pre-wrap;border-left:2px solid var(--gold-light);padding-left:14px;background:var(--surface);border-radius:0 6px 6px 0;padding-top:12px;padding-bottom:12px;padding-right:14px}
+.trigger-tag{display:inline-flex;align-items:center;gap:5px;margin-top:12px;font-size:11px;font-family:var(--mono);background:var(--gold-pale);color:var(--gold);border:1px solid rgba(154,117,48,.25);padding:4px 10px;border-radius:5px}
+
+@media(max-width:700px){
+  .layout{grid-template-columns:1fr;padding:12px 14px 24px}
+  .sb{position:static}
+  .sb-nav{flex-direction:row;flex-wrap:wrap}
+  .phase-btn{width:auto}
+  .phase-count{display:none}
+  .hd{padding:14px 14px 0}
+  .stats,.pb-wrap{padding-left:14px;padding-right:14px}
+  .pb-grid,.adv-grid{grid-template-columns:1fr}
+  .stats{flex-wrap:wrap}
+  .st{min-width:calc(50% - 4px)}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="hd">
+  <div class="hd-inner">
+    <div class="hd-left">
+      <svg class="hd-flame" viewBox="0 0 22 22" fill="none">
+        <path d="M11 2C8.5 6 6 8.5 6 12a5 5 0 0010 0c0-3.5-2.5-6-5-10z" fill="#c4a05a" opacity=".9"/>
+        <path d="M11 9c-.8 1.8-1.5 2.8-1.5 4a1.5 1.5 0 003 0c0-1.2-.7-2.2-1.5-4z" fill="#6b4c18"/>
+      </svg>
+      <span class="hd-title">Private Investor Network</span>
+      <div class="hd-sep"></div>
+      <span class="hd-sub">Beta Email Sequence &nbsp;·&nbsp; Internal</span>
+    </div>
+    <div class="hd-pills">
+      <span class="pill">16 emails</span>
+      <span class="pill">6 phases</span>
+      <span class="pill gold">Founding Member Beta</span>
+    </div>
+  </div>
+</header>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="st"><div class="st-n">16</div><div class="st-l">Total Emails</div></div>
+  <div class="st"><div class="st-n" id="stat-seats">100</div><div class="st-l">Seat Cap</div></div>
+  <div class="st"><div class="st-n" id="stat-days">60</div><div class="st-l">Day Beta</div></div>
+  <div class="st"><div class="st-n">4</div><div class="st-l">Triggered</div></div>
+  <div class="st"><div class="st-n">3</div><div class="st-l">Nurtures</div></div>
+</div>
+
+<!-- PERSONALIZE -->
+<div class="pb-wrap">
+  <div class="pb">
+    <div class="pb-toggle" onclick="toggleConfig()">
+      <svg class="pb-icon" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="6" r="3" stroke="currentColor" stroke-width="1.3"/><path d="M2 14c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+      <span class="pb-label">Personalize for member</span>
+      <span class="pb-hint">&nbsp;— fill in details and all emails update</span>
+      <span class="pb-chev open" id="cfg-arrow">&#9660;</span>
+    </div>
+    <div class="pb-body open" id="cfg-fields">
+      <div class="pb-grid">
+        <div class="f"><label>First name</label><input id="cfg-firstName" placeholder="e.g. Sarah"></div>
+        <div class="f"><label>Email address</label><input id="cfg-email" placeholder="sarah@example.com" type="email"></div>
+        <div class="f"><label>Beta start date</label><input id="cfg-betaStart" type="date"></div>
+      </div>
+
+      <div class="adv-row">
+        <div class="adv-btn" onclick="toggleAdv()">&#9654; <span id="adv-arrow-label">Advanced settings</span></div>
+        <div class="adv-grid" id="adv-fields">
+          <div class="f"><label>Investments logged</label><input id="cfg-investments" placeholder="e.g. 3" type="number"></div>
+          <div class="f"><label>Watchlist positions</label><input id="cfg-watchlist" placeholder="e.g. 2" type="number"></div>
+          <div class="f"><label>Completeness (%)</label><input id="cfg-completeness" placeholder="e.g. 68" type="number"></div>
+          <div class="f"><label>Last login (days ago)</label><input id="cfg-lastLogin" placeholder="e.g. 4" type="number"></div>
+          <div class="f"><label>Days remaining</label><input id="cfg-daysLeft" placeholder="e.g. 42" type="number"></div>
+          <div class="f"><label>Members converted</label><input id="cfg-converted" placeholder="e.g. 34" type="number"></div>
+          <div class="f"><label>Product name</label><input id="cfg-productName" value="Private Investor Network"></div>
+          <div class="f"><label>Short name</label><input id="cfg-shortName" value="PIN"></div>
+          <div class="f"><label>Sender name</label><input id="cfg-founderName" value="The PIN Team"></div>
+          <div class="f"><label>CTA URL</label><input id="cfg-ctaUrl" value="https://privateinvestor.network"></div>
+          <div class="f"><label>Seat cap</label><input id="cfg-seatCap" value="100" type="number"></div>
+          <div class="f"><label>Beta days</label><input id="cfg-betaDays" value="60" type="number"></div>
+          <div class="f"><label>Founder Starter</label><input id="cfg-p-fstarter" value="$0.99/mo"></div>
+          <div class="f"><label>Founder Core</label><input id="cfg-p-fcore" value="$4.99/mo"></div>
+          <div class="f"><label>Founder Pro</label><input id="cfg-p-fpro" value="$19.99/mo"></div>
+          <div class="f"><label>Standard Starter</label><input id="cfg-p-sstarter" value="$X/mo"></div>
+          <div class="f"><label>Standard Core</label><input id="cfg-p-score" value="$XX/mo"></div>
+          <div class="f"><label>Standard Pro</label><input id="cfg-p-spro" value="$XX/mo"></div>
+        </div>
+      </div>
+
+      <div class="pb-foot">
+        <button class="btn-apply" onclick="applyConfig()">Apply &amp; update all emails</button>
+        <span class="pb-note" id="apply-note">Enter member details above then click apply.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LAYOUT -->
+<div class="layout">
+  <aside class="sb">
+    <div class="sb-head"><span class="sb-lbl">Sequence Phases</span></div>
+    <div class="sb-nav">
+      <button class="phase-btn active" onclick="showPhase(0)"><span class="dot"></span>Waitlist<span class="phase-count">3</span></button>
+      <button class="phase-btn" onclick="showPhase(1)"><span class="dot"></span>Welcome<span class="phase-count">1</span></button>
+      <button class="phase-btn" onclick="showPhase(2)"><span class="dot"></span>Activation<span class="phase-count">4</span></button>
+      <button class="phase-btn" onclick="showPhase(3)"><span class="dot"></span>Personal Nurture<span class="phase-count">3</span></button>
+      <button class="phase-btn" onclick="showPhase(4)"><span class="dot"></span>Habit Engine<span class="phase-count">3</span></button>
+      <button class="phase-btn" onclick="showPhase(5)"><span class="dot"></span>Conversion<span class="phase-count">4</span></button>
+    </div>
+    <div class="sb-footer">
+      <p class="sb-tip">Expand any email and click <strong style="color:var(--gold)">Copy Email</strong> to paste into your ESP.</p>
+    </div>
+  </aside>
+  <main class="main" id="email-content"></main>
+</div>
+
+<script>
+// ─── CONFIG ───────────────────────────────────────────────
+let C = {
+  // Member data
+  firstName: '[First Name]',
+  email: '',
+  investments: '[X]',
+  watchlist: '[X]',
+  completeness: '[X]',
+  lastLogin: '[X]',
+  daysLeft: '[X]',
+  converted: '[X]',
+  betaStart: '',
+  // Brand / product (edit via Advanced)
+  productName: 'Private Investor Network',
+  shortName: 'PIN',
+  founderName: 'The PIN Team',
+  ctaUrl: 'https://privateinvestor.network',
+  seatCap: 100,
+  betaDays: 60,
+  pFStarter: '$0.99/mo',
+  pFCore: '$4.99/mo',
+  pFPro: '$19.99/mo',
+  pSStarter: '$X/mo',
+  pSCore: '$XX/mo',
+  pSPro: '$XX/mo',
+};
+
+function applyConfig() {
+  const g = id => document.getElementById(id);
+  // Member data
+  C.firstName   = g('cfg-firstName').value.trim() || '[First Name]';
+  C.email       = g('cfg-email').value.trim() || '';
+  C.betaStart   = g('cfg-betaStart').value || '';
+  C.investments = g('cfg-investments').value || '[X]';
+  C.watchlist   = g('cfg-watchlist').value || '[X]';
+  C.completeness= g('cfg-completeness').value || '[X]';
+  C.lastLogin   = g('cfg-lastLogin').value || '[X]';
+  C.daysLeft    = g('cfg-daysLeft').value || '[X]';
+  C.converted   = g('cfg-converted').value || '[X]';
+  // Brand / product
+  C.productName = g('cfg-productName').value || C.productName;
+  C.shortName   = g('cfg-shortName').value || C.shortName;
+  C.founderName = g('cfg-founderName').value || C.founderName;
+  C.ctaUrl      = g('cfg-ctaUrl').value || C.ctaUrl;
+  C.seatCap     = g('cfg-seatCap').value || C.seatCap;
+  C.betaDays    = g('cfg-betaDays').value || C.betaDays;
+  C.pFStarter   = g('cfg-p-fstarter').value || C.pFStarter;
+  C.pFCore      = g('cfg-p-fcore').value || C.pFCore;
+  C.pFPro       = g('cfg-p-fpro').value || C.pFPro;
+  C.pSStarter   = g('cfg-p-sstarter').value || C.pSStarter;
+  C.pSCore      = g('cfg-p-score').value || C.pSCore;
+  C.pSPro       = g('cfg-p-spro').value || C.pSPro;
+
+  document.getElementById('stat-days').textContent = C.betaDays;
+  document.getElementById('stat-seats').textContent = C.seatCap;
+  document.getElementById('hdr-name').textContent = C.productName;
+
+  renderEmails();
+  document.getElementById('apply-note').textContent = '✓ All emails personalized!';
+  setTimeout(() => document.getElementById('apply-note').textContent = 'Update any field and apply again to refresh.', 2500);
+}
+
+function fmtDate(isoStr, offsetDays) {
+  if (!isoStr) return '[Date +' + offsetDays + ' days]';
+  const d = new Date(isoStr);
+  d.setDate(d.getDate() + offsetDays);
+  return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+}
+
+// ─── EMAIL TEMPLATES ──────────────────────────────────────
+function getEmails() {
+  const p = C;
+  const fn  = p.firstName;
+  const inv = p.investments;
+  const wl  = p.watchlist;
+  const cmp = p.completeness;
+  const ll  = p.lastLogin;
+  const dl  = p.daysLeft;
+  const cv  = p.converted;
+  const endDate = fmtDate(p.betaStart, parseInt(p.betaDays));
+  const founderClose = fmtDate(p.betaStart, parseInt(p.betaDays) + 10);
+  const day7  = fmtDate(p.betaStart, 7);
+
+  return [
+    // ── PHASE 0: WAITLIST ──────────────────────────
+    {
+      phase: 0,
+      badge: 'b-waitlist', badgeText: 'Waitlist 01',
+      timing: 'Day 0 — Initial invite',
+      subject: `The problem nobody in private investing talks about`,
+      trigger: null,
+      body: `Hi ${fn},
+
+Angel investors lose money in two ways.
+
+The obvious way: a company fails.
+
+The quiet way: they simply lose track.
+
+They forget what they invested. When they invested it. What the terms were. Who else was in the round. Whether the company even still exists.
+
+We've talked to hundreds of private investors. The average person with 6+ private holdings has meaningful gaps in their own portfolio data.
+
+Not because they're careless.
+
+Because there has never been a tool built for them.
+
+Until now.
+
+${p.productName} is a single dashboard for everything you've put money into privately — companies, funds, angel rounds, real estate, all of it. In one place. With your name on it.
+
+We're opening ${p.seatCap} Founding Member beta seats. Free for ${p.betaDays} days.
+
+No pitch. No sales call. Just access.
+
+[Claim Your Founding Member Seat → ${p.ctaUrl}]
+
+If you've ever opened a spreadsheet and thought "there has to be a better way" — this is it.
+
+— ${p.founderName}
+
+P.S. Seats are capped at ${p.seatCap}. This isn't artificial scarcity. We are physically limiting intake so we can give every founding member direct attention during the beta. Once it's full, it's full.`
+    },
+    {
+      phase: 0,
+      badge: 'b-waitlist', badgeText: 'Waitlist 02',
+      timing: 'Day 3 — Educate + deepen desire',
+      subject: `What your portfolio actually looks like right now`,
+      trigger: null,
+      body: `Hi ${fn},
+
+Let me paint a picture.
+
+Your private investment portfolio lives across: a folder of old emails, a spreadsheet you haven't touched in 8 months, PDFs you can't find, a group chat with two other investors, and your memory.
+
+That's not a portfolio. That's a mess with upside potential.
+
+Here's what ${p.productName} gives you instead:
+
+One dashboard. Every company you've invested in. Every watchlist position. Every piece of data you've entered — clean, organized, and ready when you need it.
+
+When your advisor asks for a portfolio summary: you export it in 30 seconds.
+When you're considering a new deal: you pull up your watchlist and compare.
+When someone asks "what are you invested in?" — you actually know.
+
+This is what we built.
+
+${p.betaDays}-day beta. Free. ${p.seatCap} seats.
+
+[I'm In — Reserve My Seat → ${p.ctaUrl}]
+
+You're on the waitlist. Doors open soon.
+
+— ${p.founderName}`
+    },
+    {
+      phase: 0,
+      badge: 'b-waitlist', badgeText: 'Waitlist 03',
+      timing: 'Launch eve — Final pre-launch',
+      subject: `Tomorrow. Don't sleep on this.`,
+      trigger: null,
+      body: `Hi ${fn},
+
+Your seat activates tomorrow.
+
+Here's what I need you to do in your first 10 minutes:
+
+1. Log in
+2. Add your first investment — company name, amount, date
+3. Watch your dashboard load
+
+That's it. That's the moment it becomes real.
+
+Most people sign up for new tools and never actually use them. They stay in "setup mode" for weeks and then forget they signed up at all.
+
+Don't be that person.
+
+You're a Founding Member. The first ${p.seatCap} people in. The ones who will directly shape what this platform becomes.
+
+That matters — but only if you actually show up.
+
+See you tomorrow.
+
+[I'll Be There → ${p.ctaUrl}]
+
+— ${p.founderName}
+
+P.S. Have a company name, an amount, and a rough date ready. You don't need exact numbers. Approximate is fine. Just get something in.`
+    },
+
+    // ── PHASE 1: WELCOME ──────────────────────────
+    {
+      phase: 1,
+      badge: 'b-welcome', badgeText: 'Welcome',
+      timing: 'Launch day — On signup confirmation',
+      subject: `You're a Founding Member. Here's what that actually means.`,
+      trigger: 'Trigger: email verified + account created',
+      body: `Hi ${fn},
+
+You're in.
+
+Out of everyone we could have invited, you're one of fewer than ${p.seatCap} people with access to ${p.productName} before it goes public.
+
+That's not a marketing line. It's just true.
+
+Here's what Founding Member status gets you:
+
+  FREE access for ${p.betaDays} days — no card required, no catch
+  Preferred pricing when paid tiers launch (lower than anything we'll offer publicly — ever)
+  Direct line to the team — your feedback actually changes what we build
+
+Here's what I need from you right now:
+
+→ Log in and add your first investment.
+
+Not tomorrow. Not after you "explore the platform." Right now.
+
+The dashboard is blank until you do. And a blank dashboard tells you nothing.
+
+Company name. Amount invested. Date. That's all it takes to start.
+
+[Log In and Add Your First Investment → ${p.ctaUrl}]
+
+${p.betaDays} days goes fast. Start today.
+
+— ${p.founderName}
+
+P.S. If you run into anything — a bug, a confusing screen, something missing — reply to this email. I read every one.`
+    },
+
+    // ── PHASE 2: ACTIVATION ──────────────────────────
+    {
+      phase: 2,
+      badge: 'b-activate', badgeText: 'Activate 01',
+      timing: 'Day 1 post-signup — No investment logged',
+      subject: `Your dashboard is empty. Let's fix that in 3 minutes.`,
+      trigger: 'Send if: no investment logged 24 hrs after signup',
+      body: `Hi ${fn},
+
+You signed up. Good.
+
+Now comes the one step that makes everything else work: adding your first investment.
+
+Right now your dashboard is a blank screen. It literally cannot show you anything until you put something in.
+
+Here's exactly what you need:
+  → A company or asset name (even informal — "John's Bakery" works)
+  → Approximate amount invested
+  → Approximate date
+
+That's it. Estimates are fine. You can fill in the rest later.
+
+[Add My First Investment — Takes 3 Minutes → ${p.ctaUrl}]
+
+People who add their first investment on day one are 4x more likely to still be active at the end of the beta.
+
+Don't be the person who signed up and never started.
+
+— ${p.founderName}`
+    },
+    {
+      phase: 2,
+      badge: 'b-activate', badgeText: 'Activate 02',
+      timing: 'Day 3 post-signup — Still no investment',
+      subject: `We haven't received your first investment yet`,
+      trigger: 'Send if: no investment logged 72 hrs after signup',
+      body: `Hi ${fn},
+
+Three days in. No investments logged.
+
+I'm not going to guilt trip you. But I am going to be direct:
+
+${p.productName} does nothing — zero — for an empty portfolio.
+
+The dashboard needs data to show you data.
+The insights need investments to surface insights.
+The export needs entries to export.
+
+You joined for a reason. You have private investments. You know the problem this solves.
+
+The only thing standing between you and a working portfolio dashboard is two minutes and one investment entry.
+
+[Log My First Investment Right Now → ${p.ctaUrl}]
+
+If something is actually getting in the way — a confusing step, a missing field, something that doesn't make sense — reply to this email and tell me. I will personally help you get it sorted.
+
+No excuses needed. Just tell me what's blocking you.
+
+— ${p.founderName}`
+    },
+    {
+      phase: 2,
+      badge: 'b-trigger', badgeText: 'Triggered',
+      timing: 'Fires the moment first investment is uploaded',
+      subject: `First one's in. Now let's make this actually useful.`,
+      trigger: 'Trigger: fires immediately when first investment is created',
+      body: `Hi ${fn},
+
+Your first investment is logged.
+
+Your dashboard just went from a blank screen to a live portfolio view. Log in and look at it — it's different now.
+
+Here's something I'll tell you straight:
+
+One investment gives you a data point. Three investments give you a portfolio.
+
+The platform's real value — pattern recognition, watchlist comparisons, portfolio completeness scoring — none of that clicks until you have at least 3 holdings in.
+
+So here's your Week 1 challenge:
+
+Add 2 more investments before ${day7}.
+
+Not because we need the data. Because you need to feel what this is actually capable of.
+
+[Add 2 More Investments → ${p.ctaUrl}]
+
+You've got ${dl} days left in your beta. The members who get the most out of it start fast and go deep.
+
+You just took step one. Keep going.
+
+— ${p.founderName}`
+    },
+    {
+      phase: 2,
+      badge: 'b-activate', badgeText: 'Activate 03',
+      timing: 'Day 7 post-signup — Zero investments (final nudge)',
+      subject: `I have to be honest with you`,
+      trigger: 'Send if: no investment 7 days after signup — final activation attempt',
+      body: `Hi ${fn},
+
+A week has passed. You still haven't logged a single investment.
+
+I'm not frustrated. I'm curious.
+
+Because you asked to be here. You claimed one of ${p.seatCap} founding member seats. And then nothing.
+
+Here's my honest take:
+
+If you have private investments and you're not tracking them — you're flying blind. You don't know your full exposure. You don't know your returns. You don't know what you own.
+
+That's a real problem. And it's exactly what ${p.shortName} was built to fix.
+
+The question is: do you want to fix it?
+
+If yes — two minutes is all it takes right now.
+
+[Log My First Investment → ${p.ctaUrl}]
+
+If this isn't the right time, I get it. Just reply and say so and I'll pause your emails. No hard feelings.
+
+But if you do have private holdings you're not properly tracking — don't let another week go by without doing something about it.
+
+— ${p.founderName}`
+    },
+
+    // ── PHASE 3: PERSONAL NURTURE ──────────────────────────
+    {
+      phase: 3,
+      badge: 'b-personal', badgeText: 'Personal 01',
+      timing: 'Day 10 — Founder check-in (activated users only)',
+      subject: `Quick question from the ${p.shortName} team`,
+      trigger: 'Send to: users with ≥1 investment at day 10 · Personalize [X investments] dynamically',
+      body: `Hi ${fn},
+
+Not a newsletter. Not a product update.
+
+Just a question.
+
+You've been in ${p.productName} for 10 days now. You've added ${inv} investments to your portfolio.
+
+Here's what I want to know:
+
+What's the one thing you wish you could see or do inside ${p.shortName} that you can't right now?
+
+Not a bug report. Not a complaint. Just — if you could wave a wand and add one feature, one piece of data, one view — what would it be?
+
+Hit reply and tell me. I read every response personally, and the features we build next come directly from answers to this question.
+
+You're a Founding Member. This is what that means in practice.
+
+— ${p.founderName}
+
+P.S. If everything is working great and you have no requests — that's worth knowing too. Just say "all good" and I'll count it as a win.`
+    },
+    {
+      phase: 3,
+      badge: 'b-personal', badgeText: 'Personal 02',
+      timing: 'Day 20 — Social proof + value reinforcement',
+      subject: `${fn}, here's what other founding members are saying`,
+      trigger: 'Send to: all active users at day 20 · Swap in real testimonials from day-10 replies as they come in',
+      body: `Hi ${fn},
+
+Three weeks in. Here's what we're hearing from founding members:
+
+"I didn't realize how scattered my portfolio actually was until I put everything in one place. Took me 20 minutes to log everything. I haven't touched a spreadsheet since."
+
+"The export alone is worth it. I sent my advisor a clean portfolio summary for the first time ever."
+
+"I've been angel investing for 6 years. I wish this existed on day one."
+
+We're collecting these as we go — and if you've had a moment where ${p.shortName} clicked for you, I'd love to hear it.
+
+Hit reply and tell me what's working. Or what isn't.
+
+Your feedback is directly shaping what we build before this beta ends.
+
+You've got ${dl} days left at no cost. Here's how to make the most of them:
+
+→ If you haven't set up your watchlist yet — do it this week
+→ If you have more than 3 investments to log — add them now while you have time
+→ If your portfolio completeness score is below 70% — we'll walk you through fixing it
+
+[Log In and Keep Building → ${p.ctaUrl}]
+
+— ${p.founderName}`
+    },
+    {
+      phase: 3,
+      badge: 'b-personal', badgeText: 'Personal 03',
+      timing: 'Day 35 — Halfway report card (personalized stats)',
+      subject: `You're halfway through your beta. Here's your report card.`,
+      trigger: 'Send to: all users at day 35 · Pull live per-user stats from your data layer',
+      body: `Hi ${fn},
+
+${Math.round(parseInt(p.betaDays)/2)} days down. ${Math.round(parseInt(p.betaDays)/2)} days left.
+
+Here's where you stand:
+
+  Investments logged:         ${inv}
+  Watchlist positions:        ${wl}
+  Portfolio completeness:     ${cmp}%
+  Last login:                 ${ll} days ago
+
+Be honest with yourself for a second.
+
+If those numbers look good — great. You're getting real value and you're on track to convert to a paid plan with full context of what you're paying for.
+
+If those numbers look low — this is your halfway wake-up call.
+
+The members who get the most out of ${p.shortName} aren't the ones with the most complex portfolios. They're the ones who committed to actually using it for ${p.betaDays} days.
+
+You have ${Math.round(parseInt(p.betaDays)/2)} days left. That's enough time to build a habit that'll serve you for years.
+
+[Log In and Finish Strong → ${p.ctaUrl}]
+
+What does "finishing strong" look like?
+
+→ Every private investment you hold — logged
+→ Watchlist active with at least 3 companies
+→ One portfolio export completed
+→ Completeness score above 70%
+
+That's the goal. You've got ${Math.round(parseInt(p.betaDays)/2)} days to hit it.
+
+— ${p.founderName}`
+    },
+
+    // ── PHASE 4: HABIT ENGINE ──────────────────────────
+    {
+      phase: 4,
+      badge: 'b-habit', badgeText: 'Habit 01',
+      timing: 'Week 2 — Watchlist challenge',
+      subject: `The deal that gets away is always the one you weren't tracking`,
+      trigger: 'Send to: users with ≥1 investment, week 2',
+      body: `Hi ${fn},
+
+Every serious private investor has a list of companies they're watching.
+
+Most keep it in their head. Some have a notes app. A few have a spreadsheet they half-maintain.
+
+All of them have, at some point, missed a window on a deal they were tracking — because they weren't tracking it properly.
+
+Your watchlist in ${p.shortName} fixes that.
+
+This week's challenge: add 3 companies to your watchlist.
+
+Not investments. Just companies you're watching. Opportunities in your network. Sectors you're following. Names you keep hearing.
+
+It takes 5 minutes. And when the right moment comes, you'll have the context you need to move fast.
+
+[Set Up My Watchlist → ${p.ctaUrl}]
+
+— ${p.founderName}`
+    },
+    {
+      phase: 4,
+      badge: 'b-habit', badgeText: 'Habit 02',
+      timing: 'Week 3 — Export challenge',
+      subject: `When was the last time you actually knew what you owned?`,
+      trigger: 'Send to: users with ≥1 investment, week 3',
+      body: `Hi ${fn},
+
+Quick exercise.
+
+Without logging in to anything, without opening a spreadsheet — how many private investments do you have right now?
+
+Most investors guess. They're usually off by 2 or 3.
+
+This week's challenge: run your first portfolio export.
+
+Your export produces a clean, formatted summary of everything you've logged in ${p.shortName}. Every company. Every investment. Every number you've entered.
+
+Send it to your advisor. File it with your accountant. Or just read it yourself.
+
+Either way — it's the first time in a long time you'll have a single document that actually reflects what you own.
+
+[Export My Portfolio → ${p.ctaUrl}]
+
+— ${p.founderName}`
+    },
+    {
+      phase: 4,
+      badge: 'b-habit', badgeText: 'Habit 03',
+      timing: 'Week 4 — Completeness challenge',
+      subject: `Your portfolio completeness score is costing you insight`,
+      trigger: 'Send to: users with ≥1 investment, week 4 · Personalize [X]% dynamically',
+      body: `Hi ${fn},
+
+We track something called your portfolio completeness score.
+
+It's simple: the more fields you've filled in per investment — cost basis, current estimated value, stage, co-investors — the higher your score, and the more useful your insights become.
+
+Your current score: ${cmp}%
+
+Here's why this matters.
+
+Missing cost basis means you can't see your real return.
+Missing valuation estimates mean your dashboard shows a holdings list, not a portfolio view.
+Missing dates and terms mean your export is half-complete.
+
+This week's challenge: open your two lowest-completeness investments and fill in the missing fields.
+
+It takes 10 minutes. The difference in what your dashboard shows you after is significant.
+
+[Improve My Portfolio Score → ${p.ctaUrl}]
+
+— ${p.founderName}`
+    },
+
+    // ── PHASE 5: CONVERSION ──────────────────────────
+    {
+      phase: 5,
+      badge: 'b-convert', badgeText: 'Convert 01',
+      timing: `Day ${Math.round(parseInt(p.betaDays)/2)} — Beta ends in ${Math.round(parseInt(p.betaDays)/2)} days`,
+      subject: `Halfway warning: what happens when the beta ends`,
+      trigger: null,
+      body: `Hi ${fn},
+
+${Math.round(parseInt(p.betaDays)/2)} days left in your Founding Member Beta.
+
+I want to be upfront with you about what happens next — no surprises.
+
+On ${endDate}, paid tiers go live. The platform doesn't disappear. Your data doesn't disappear. But continued access will require a plan.
+
+As a Founding Member, you'll receive preferred pricing — permanently lower than what we'll offer to anyone who joins after launch. We'll announce the exact numbers in the next few weeks.
+
+What I need you to do between now and then:
+
+Get your full portfolio in. Every private holding you have should be logged before the beta ends so you walk into the paid tier with a complete, working dashboard — not an empty one.
+
+[Log In and Add Your Remaining Investments → ${p.ctaUrl}]
+
+More details on pricing coming soon. Keep an eye on your inbox.
+
+— ${p.founderName}`
+    },
+    {
+      phase: 5,
+      badge: 'b-convert', badgeText: 'Convert 02',
+      timing: `Day ${Math.round(parseInt(p.betaDays)*0.75)} — Pricing reveal`,
+      subject: `Here's exactly what it costs after beta (and what you pay instead)`,
+      trigger: null,
+      body: `Hi ${fn},
+
+${Math.round(parseInt(p.betaDays)*0.25)} days left. Time to talk numbers.
+
+When the beta ends, here's what new members will pay:
+
+  Starter     ${p.pSStarter}
+  Core        ${p.pSCore}
+  Pro         ${p.pSPro}
+
+Here's what you pay as a Founding Member — locked in for 12 months:
+
+  Founder Starter    ${p.pFStarter}
+  Founder Core       ${p.pFCore}
+  Founder Pro        ${p.pFPro}
+
+The gap is significant. And it closes permanently when your 10-day conversion window after the beta ends.
+
+Here's the math I'd do if I were you:
+
+If ${p.shortName} saves you from one bad investment decision in the next 12 months — and one bad angel investment averages a $5,000 loss — the ${p.pFCore} plan returns 1,000x.
+
+That's not hype. That's the actual value proposition.
+
+[View Plans and Lock My Founding Rate → ${p.ctaUrl}]
+
+You don't have to decide today. But I'd encourage you not to wait until the last minute.
+
+— ${p.founderName}`
+    },
+    {
+      phase: 5,
+      badge: 'b-convert', badgeText: 'Convert 03',
+      timing: `Day ${parseInt(p.betaDays) - 5} — 5 days left`,
+      subject: `5 days. Then founder pricing is gone.`,
+      trigger: null,
+      body: `Hi ${fn},
+
+Five days.
+
+That's how long you have to lock in Founding Member pricing before the beta ends and we open to the public.
+
+I want to be clear about something: this is not a countdown gimmick. The pricing differential is real. The window is real. And once it closes, it doesn't reopen — not for you, not for anyone.
+
+After ${endDate}, new members will pay standard rates.
+
+You pay founder rates. For 12 months. For the rest of your founding member tenure.
+
+Right now, ${cv} of your fellow founding members have already locked their plans.
+
+If you've been on the fence: get off it.
+
+[Lock My Founding Member Rate → ${p.ctaUrl}]
+
+If you have a question that's keeping you from deciding — reply right now. I'll answer it personally before the window closes.
+
+— ${p.founderName}`
+    },
+    {
+      phase: 5,
+      badge: 'b-convert', badgeText: 'Convert 04',
+      timing: `Day ${p.betaDays} — Paywall live, 10-day founder window open`,
+      subject: `Beta is over. Here's what's next for you.`,
+      trigger: null,
+      body: `Hi ${fn},
+
+${p.betaDays} days. That's what we gave you. Free. No pitch. No pressure.
+
+Today that ends.
+
+The paywall is live. But your founding member window is still open — for 10 more days.
+
+Everything you built in the last ${p.betaDays} days — your portfolio, your watchlists, your completeness score, your data — it's all there. It doesn't go anywhere.
+
+But to keep accessing it, you need to choose a plan.
+
+  Founder Core    ${p.pFCore} — 12 months locked
+  Founder Pro     ${p.pFPro} — 12 months locked
+
+10 days. Then standard pricing. Forever.
+
+[Choose My Plan and Keep My Portfolio → ${p.ctaUrl}]
+
+Thank you for being part of the founding cohort. Genuinely. The feedback you gave, the features you tested, the problems you surfaced — it made the product better for every investor who comes after you.
+
+Now let's keep going.
+
+— ${p.founderName}
+
+P.S. If you decide not to continue, your data is held for 30 days before deletion. Reply to this email if you need anything before then.`
+    },
+  ];
+}
+
+// ─── PHASE METADATA ───────────────────────────────────────
+const phases = [
+  { num: '01', title: 'Waitlist Sequence', desc: 'Three emails to build anticipation, educate the prospect on the core problem, and prime them to act the moment doors open.' },
+  { num: '02', title: 'Welcome Email', desc: 'Fires automatically on email verification + account creation. Sets expectations: free access, founding member perks, one immediate action.' },
+  { num: '03', title: 'Activation Sequence', desc: 'Time-based nudges for users who haven\'t logged an investment, plus a triggered congratulations email the moment they do.' },
+  { num: '04', title: 'Personalized Nurture', desc: 'Three relationship-building touchpoints that make members feel seen and heard. Direct from the founder. Drives retention and surfaces testimonials.' },
+  { num: '05', title: 'Habit Engine', desc: 'Weekly action challenges sent to activated users only. Each email drives a specific product feature and gives members a concrete reason to log in.' },
+  { num: '06', title: 'Conversion Sequence', desc: 'Four emails that move members from free beta to paid. Logic-based urgency, transparent pricing, and a 10-day founder window after beta end.' },
+];
+
+// ─── RENDER ───────────────────────────────────────────────
+function renderEmails() {
+  const emails = getEmails();
+  const container = document.getElementById('email-content');
+  container.innerHTML = '';
+
+  phases.forEach((ph, phIdx) => {
+    const section = document.createElement('section');
+    section.id = 'p' + phIdx;
+    section.className = 'phase-section' + (phIdx === 0 ? ' active' : '');
+
+    const phEmails = emails.filter(e => e.phase === phIdx);
+    let html = `
+      <div class="phase-header">
+        <div class="phase-number">Phase ${ph.num}</div>
+        <div class="phase-title">${ph.title}</div>
+        <div class="phase-desc">${ph.desc}</div>
+      </div>`;
+
+    phEmails.forEach((em, i) => {
+      const eid = 'em-' + phIdx + '-' + i;
+      html += `
+      <div class="email-card" id="${eid}">
+        <div class="email-header" onclick="toggleCard('${eid}')">
+          <span class="badge ${em.badge}">${em.badgeText}</span>
+          <div class="email-meta">
+            <div class="email-timing">${em.timing}</div>
+            <div class="email-subject-preview">${em.subject}</div>
+          </div>
+          <div class="toggle-icon">&#9654;</div>
+        </div>
+        <div class="email-body" id="${eid}-body">
+          <div class="email-body-inner">
+            <div class="copy-bar">
+              <button class="btn-copy" id="${eid}-copybtn" onclick="copyEmail('${eid}')">
+                <span class="copy-icon">&#10697;</span> Copy Email
+              </button>
+            </div>
+            <div class="email-subjectline">Subject line: <span>${em.subject}</span></div>
+            <div class="email-copy" id="${eid}-text">${escHtml(em.body)}</div>
+            ${em.trigger ? `<div class="trigger-tag">${escHtml(em.trigger)}</div>` : ''}
+          </div>
+        </div>
+      </div>`;
+    });
+
+    section.innerHTML = html;
+    container.appendChild(section);
+  });
+
+  // Re-apply active phase
+  showPhase(currentPhase);
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ─── INTERACTIONS ─────────────────────────────────────────
+let currentPhase = 0;
+
+function showPhase(idx) {
+  currentPhase = idx;
+  document.querySelectorAll('.phase-section').forEach((s, i) => s.classList.toggle('active', i === idx));
+  document.querySelectorAll('.phase-btn').forEach((b, i) => b.classList.toggle('active', i === idx));
+}
+
+function toggleCard(eid) {
+  const card = document.getElementById(eid);
+  const body = document.getElementById(eid + '-body');
+  const isOpen = card.classList.toggle('open');
+  body.classList.toggle('open', isOpen);
+}
+
+function copyEmail(eid) {
+  const card = document.getElementById(eid);
+  const textEl = document.getElementById(eid + '-text');
+  const subjectEl = card.querySelector('.email-subjectline span');
+  const btn = document.getElementById(eid + '-copybtn');
+
+  const subject = subjectEl ? subjectEl.textContent : '';
+  const body = textEl ? textEl.textContent : '';
+  const full = `Subject: ${subject}\n\n${body}`;
+
+  navigator.clipboard.writeText(full).then(() => {
+    btn.classList.add('copied');
+    btn.innerHTML = '<span class="copy-icon">&#10003;</span> Copied!';
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.innerHTML = '<span class="copy-icon">&#10697;</span> Copy Email';
+    }, 2000);
+  }).catch(() => {
+    // Fallback for older browsers
+    const ta = document.createElement('textarea');
+    ta.value = full;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    btn.classList.add('copied');
+    btn.innerHTML = '<span class="copy-icon">&#10003;</span> Copied!';
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.innerHTML = '<span class="copy-icon">&#10697;</span> Copy Email';
+    }, 2000);
+  });
+}
+
+function toggleConfig() {
+  const fields = document.getElementById('cfg-fields');
+  const arrow  = document.getElementById('cfg-arrow');
+  const open   = fields.classList.toggle('open');
+  arrow.classList.toggle('open', open);
+}
+
+function toggleAdv() {
+  const adv  = document.getElementById('adv-fields');
+  const lbl  = document.getElementById('adv-arrow-label');
+  const open = adv.classList.toggle('open');
+  lbl.textContent = open ? 'Hide brand & pricing settings' : 'Show brand & pricing settings';
+}
+
+// Initial render
+renderEmails();
+</script>
+</body>
+</html>
+
+</body>
+</html>
+</body>
+</html>
+</body>
+</html>
